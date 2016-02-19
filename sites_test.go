@@ -32,7 +32,7 @@ func TestClientSites(t *testing.T) {
 	}
 
 	if want, got := wantSite, sites[0]; !reflect.DeepEqual(want, got) {
-		t.Fatalf("unexpected Site:\n- want: %d\n-  got: %d",
+		t.Fatalf("unexpected Site:\n- want: %v\n-  got: %v",
 			want, got)
 	}
 }
