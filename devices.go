@@ -3,6 +3,8 @@ package unifi
 import (
 	"encoding/json"
 	"fmt"
+	"net"
+	"net/url"
 )
 
 // Devices returns all of the Devices for a specified site name.
@@ -26,10 +28,34 @@ func (c *Client) Devices(siteName string) ([]*Device, error) {
 
 // A Device is a Ubiquiti UniFi device, such as a UniFi access point.
 type Device struct {
-	ID      string
-	Adopted bool
+	ID        string
+	Adopted   bool
+	InformIP  net.IP
+	InformURL *url.URL
+	Model     string
+	NICs      []*NIC
+	Radios    []*Radio
+	Serial    string
+	SiteID    string
+	Version   string
 
 	// TODO(mdlayher): add more fields from unexported device type
+}
+
+// A Radio is a wireless radio, attached to a Device.
+type Radio struct {
+	BuiltInAntenna     bool
+	BuiltInAntennaGain int
+	MaxTXPower         int
+	MinTXPower         int
+	Name               string
+	Radio              string
+}
+
+// A NIC is a wired ethernet network interface, attached to a Device.
+type NIC struct {
+	MAC  net.HardwareAddr
+	Name string
 }
 
 // UnmarshalJSON unmarshals the raw JSON representation of a Device.
@@ -39,9 +65,52 @@ func (d *Device) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
+	informIP := net.ParseIP(dev.InformIP)
+	if informIP == nil {
+		return fmt.Errorf("failed to parse inform IP: %v", dev.InformIP)
+	}
+
+	informURL, err := url.Parse(dev.InformURL)
+	if err != nil {
+		return err
+	}
+
+	nics := make([]*NIC, 0, len(dev.EthernetTable))
+	for _, et := range dev.EthernetTable {
+		mac, err := net.ParseMAC(et.MAC)
+		if err != nil {
+			return err
+		}
+
+		nics = append(nics, &NIC{
+			MAC:  mac,
+			Name: et.Name,
+		})
+	}
+
+	radios := make([]*Radio, 0, len(dev.RadioTable))
+	for _, rt := range dev.RadioTable {
+		radios = append(radios, &Radio{
+			BuiltInAntenna:     rt.BuiltinAntenna,
+			BuiltInAntennaGain: rt.BuiltinAntGain,
+			MaxTXPower:         rt.MaxTXPower,
+			MinTXPower:         rt.MinTXPower,
+			Name:               rt.Name,
+			Radio:              rt.Radio,
+		})
+	}
+
 	*d = Device{
-		ID:      dev.ID,
-		Adopted: dev.Adopted,
+		ID:        dev.ID,
+		Adopted:   dev.Adopted,
+		InformIP:  informIP,
+		InformURL: informURL,
+		Model:     dev.Model,
+		NICs:      nics,
+		Radios:    radios,
+		Serial:    dev.Serial,
+		SiteID:    dev.SiteID,
+		Version:   dev.Version,
 	}
 
 	return nil
@@ -82,18 +151,18 @@ type device struct {
 	NumSta        int         `json:"num_sta"`
 	RadioNa       interface{} `json:"radio_na"`
 	RadioNg       struct {
-		BuiltinAntGain int    `json:"builtin_ant_gain"`
-		BuiltinAntenna bool   `json:"builtin_antenna"`
-		MaxTxpower     int    `json:"max_txpower"`
-		MinTxpower     int    `json:"min_txpower"`
-		Name           string `json:"name"`
-		Radio          string `json:"radio"`
+		BuiltInAntennaGain int    `json:"builtin_ant_gain"`
+		BuiltInAntenna     bool   `json:"builtin_antenna"`
+		MaxTXPower         int    `json:"max_txpower"`
+		MinTXPower         int    `json:"min_txpower"`
+		Name               string `json:"name"`
+		Radio              string `json:"radio"`
 	} `json:"radio_ng"`
 	RadioTable []struct {
 		BuiltinAntGain int    `json:"builtin_ant_gain"`
 		BuiltinAntenna bool   `json:"builtin_antenna"`
-		MaxTxpower     int    `json:"max_txpower"`
-		MinTxpower     int    `json:"min_txpower"`
+		MaxTXPower     int    `json:"max_txpower"`
+		MinTXPower     int    `json:"min_txpower"`
 		Name           string `json:"name"`
 		Radio          string `json:"radio"`
 	} `json:"radio_table"`
