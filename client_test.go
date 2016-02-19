@@ -172,7 +172,8 @@ func testHandler(t *testing.T, method string, path string, body interface{}, out
 		}
 
 		if r.Method != http.MethodPost && r.Method != http.MethodPut {
-			if err := json.NewEncoder(w).Encode(body); err != nil {
+			w.Header().Set("Content-Type", jsonContentType)
+			if err := json.NewEncoder(w).Encode(out); err != nil {
 				t.Fatalf("error marshaling JSON response body: %v", err)
 			}
 			return
