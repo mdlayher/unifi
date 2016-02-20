@@ -28,6 +28,11 @@ func TestClientDevices(t *testing.T) {
 		InformIP: wantInformIP,
 		NICs:     []*NIC{},
 		Radios:   []*Radio{},
+		Stats: &DeviceStats{
+			All:    &WirelessStats{},
+			User:   &WirelessStats{},
+			Uplink: &WiredStats{},
+		},
 	}
 
 	v := struct {
@@ -126,6 +131,23 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 	],
 	"serial": "deadbeef0123456789",
 	"site_id": "default",
+	"stat": {
+		"bytes": 100,
+		"rx_bytes": 80,
+		"rx_packets": 4,
+		"tx_bytes": 20,
+		"tx_dropped": 1,
+		"tx_packets": 1,
+		"user-rx_bytes": 80,
+		"user-rx_packets": 4,
+		"user-tx_bytes": 20,
+		"user-tx_dropped": 1,
+		"user-tx_packets": 1,
+		"uplink-rx_bytes": 80,
+		"uplink-rx_packets": 4,
+		"uplink-tx_bytes": 20,
+		"uplink-tx_packets": 1
+	},
 	"version": "1.0.0"
 }
 `)),
@@ -154,8 +176,31 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 					Name:               "wlan0",
 					Radio:              "ng",
 				}},
-				Serial:  "deadbeef0123456789",
-				SiteID:  "default",
+				Serial: "deadbeef0123456789",
+				SiteID: "default",
+				Stats: &DeviceStats{
+					TotalBytes: 100,
+					All: &WirelessStats{
+						ReceiveBytes:    80,
+						ReceivePackets:  4,
+						TransmitBytes:   20,
+						TransmitDropped: 1,
+						TransmitPackets: 1,
+					},
+					User: &WirelessStats{
+						ReceiveBytes:    80,
+						ReceivePackets:  4,
+						TransmitBytes:   20,
+						TransmitDropped: 1,
+						TransmitPackets: 1,
+					},
+					Uplink: &WiredStats{
+						ReceiveBytes:    80,
+						ReceivePackets:  4,
+						TransmitBytes:   20,
+						TransmitPackets: 1,
+					},
+				},
 				Version: "1.0.0",
 			},
 		},

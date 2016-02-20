@@ -37,6 +37,7 @@ type Device struct {
 	Radios    []*Radio
 	Serial    string
 	SiteID    string
+	Stats     *DeviceStats
 	Version   string
 
 	// TODO(mdlayher): add more fields from unexported device type
@@ -56,6 +57,32 @@ type Radio struct {
 type NIC struct {
 	MAC  net.HardwareAddr
 	Name string
+}
+
+// DeviceStats contains device network activity statistics.
+type DeviceStats struct {
+	TotalBytes int
+	All        *WirelessStats
+	Guest      *WirelessStats
+	User       *WirelessStats
+	Uplink     *WiredStats
+}
+
+// WirelessStats contains wireless device network activity statistics.
+type WirelessStats struct {
+	ReceiveBytes    int
+	ReceivePackets  int
+	TransmitBytes   int
+	TransmitDropped int
+	TransmitPackets int
+}
+
+// WiredStats contains wired device network activity statistics.
+type WiredStats struct {
+	ReceiveBytes    int
+	ReceivePackets  int
+	TransmitBytes   int
+	TransmitPackets int
 }
 
 // UnmarshalJSON unmarshals the raw JSON representation of a Device.
@@ -111,6 +138,29 @@ func (d *Device) UnmarshalJSON(b []byte) error {
 		Serial:    dev.Serial,
 		SiteID:    dev.SiteID,
 		Version:   dev.Version,
+		Stats: &DeviceStats{
+			TotalBytes: dev.Stat.Bytes,
+			All: &WirelessStats{
+				ReceiveBytes:    dev.Stat.RxBytes,
+				ReceivePackets:  dev.Stat.RxPackets,
+				TransmitBytes:   dev.Stat.TxBytes,
+				TransmitDropped: dev.Stat.TxDropped,
+				TransmitPackets: dev.Stat.TxPackets,
+			},
+			User: &WirelessStats{
+				ReceiveBytes:    dev.Stat.UserRxBytes,
+				ReceivePackets:  dev.Stat.UserRxPackets,
+				TransmitBytes:   dev.Stat.UserTxBytes,
+				TransmitDropped: dev.Stat.UserTxDropped,
+				TransmitPackets: dev.Stat.UserTxPackets,
+			},
+			Uplink: &WiredStats{
+				ReceiveBytes:    dev.Stat.UplinkRxBytes,
+				ReceivePackets:  dev.Stat.UplinkRxPackets,
+				TransmitBytes:   dev.Stat.UplinkTxBytes,
+				TransmitPackets: dev.Stat.UplinkTxPackets,
+			},
+		},
 	}
 
 	return nil
