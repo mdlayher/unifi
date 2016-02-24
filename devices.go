@@ -52,6 +52,14 @@ type Radio struct {
 	MinTXPower         int
 	Name               string
 	Radio              string
+	Stats              *RadioStationsStats
+}
+
+// RadioStationsStats contains Station statistics for a Radio.
+type RadioStationsStats struct {
+	NumberStations      int
+	NumberGuestStations int
+	NumberUserStations  int
 }
 
 // A NIC is a wired ethernet network interface, attached to a Device.
@@ -86,6 +94,14 @@ type WiredStats struct {
 	TransmitPackets int
 }
 
+const (
+	radioNA = "na"
+	radioNG = "ng"
+
+	radio80211ac = "802.11ac"
+	radio80211n  = "802.11n"
+)
+
 // UnmarshalJSON unmarshals the raw JSON representation of a Device.
 func (d *Device) UnmarshalJSON(b []byte) error {
 	var dev device
@@ -118,14 +134,35 @@ func (d *Device) UnmarshalJSON(b []byte) error {
 
 	radios := make([]*Radio, 0, len(dev.RadioTable))
 	for _, rt := range dev.RadioTable {
-		radios = append(radios, &Radio{
+		r := &Radio{
 			BuiltInAntenna:     rt.BuiltinAntenna,
 			BuiltInAntennaGain: rt.BuiltinAntGain,
 			MaxTXPower:         rt.MaxTXPower,
 			MinTXPower:         rt.MinTXPower,
 			Name:               rt.Name,
-			Radio:              rt.Radio,
-		})
+		}
+
+		// 802.11ac and 802.11n station counts appear in different keys for
+		// different radio types, so we check the radio type first to determine
+		// where the correct radio statistics are
+		switch rt.Radio {
+		case radioNA:
+			r.Radio = radio80211ac
+			r.Stats = &RadioStationsStats{
+				NumberStations:      dev.NaNumSta,
+				NumberUserStations:  dev.NaUserNumSta,
+				NumberGuestStations: dev.NaGuestNumSta,
+			}
+		case radioNG:
+			r.Radio = radio80211n
+			r.Stats = &RadioStationsStats{
+				NumberStations:      dev.NgNumSta,
+				NumberUserStations:  dev.NgUserNumSta,
+				NumberGuestStations: dev.NgGuestNumSta,
+			}
+		}
+
+		radios = append(radios, r)
 	}
 
 	*d = Device{

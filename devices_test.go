@@ -120,6 +120,12 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 			"name": "eth0"
 		}
 	],
+	"na-num_sta": 3,
+	"na-user-num_sta": 2,
+	"na-guest-num_sta": 1,
+	"ng-num_sta": 3,
+	"ng-user-num_sta": 2,
+	"ng-guest-num_sta": 1,
 	"radio_table": [
 		{
 			"builtin_ant_gain": 1,
@@ -128,6 +134,14 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 			"min_txpower": 1,
 			"name": "wlan0",
 			"radio": "ng"
+		},
+		{
+			"builtin_ant_gain": 1,
+			"builtin_antenna": true,
+			"max_txpower": 10,
+			"min_txpower": 1,
+			"name": "wlan1",
+			"radio": "na"
 		}
 	],
 	"serial": "deadbeef0123456789",
@@ -170,14 +184,34 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 					MAC:  net.HardwareAddr{0xde, 0xad, 0xbe, 0xef, 0xde, 0xad},
 					Name: "eth0",
 				}},
-				Radios: []*Radio{{
-					BuiltInAntenna:     true,
-					BuiltInAntennaGain: 1,
-					MaxTXPower:         10,
-					MinTXPower:         1,
-					Name:               "wlan0",
-					Radio:              "ng",
-				}},
+				Radios: []*Radio{
+					{
+						BuiltInAntenna:     true,
+						BuiltInAntennaGain: 1,
+						MaxTXPower:         10,
+						MinTXPower:         1,
+						Name:               "wlan0",
+						Radio:              radio80211n,
+						Stats: &RadioStationsStats{
+							NumberStations:      3,
+							NumberUserStations:  2,
+							NumberGuestStations: 1,
+						},
+					},
+					{
+						BuiltInAntenna:     true,
+						BuiltInAntennaGain: 1,
+						MaxTXPower:         10,
+						MinTXPower:         1,
+						Name:               "wlan1",
+						Radio:              radio80211ac,
+						Stats: &RadioStationsStats{
+							NumberStations:      3,
+							NumberUserStations:  2,
+							NumberGuestStations: 1,
+						},
+					},
+				},
 				Serial: "deadbeef0123456789",
 				SiteID: "default",
 				Stats: &DeviceStats{
