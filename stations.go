@@ -68,11 +68,6 @@ func (s *Station) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
-	ip := net.ParseIP(sta.IP)
-	if ip == nil {
-		return fmt.Errorf("failed to parse station IP: %v", sta.IP)
-	}
-
 	mac, err := net.ParseMAC(sta.Mac)
 	if err != nil {
 		return err
@@ -86,7 +81,7 @@ func (s *Station) UnmarshalJSON(b []byte) error {
 		FirstSeen:       time.Unix(int64(sta.FirstSeen), 0),
 		Hostname:        sta.Hostname,
 		IdleTime:        time.Duration(time.Duration(sta.Idletime) * time.Second),
-		IP:              ip,
+		IP:              net.ParseIP(sta.IP),
 		LastSeen:        time.Unix(int64(sta.LastSeen), 0),
 		MAC:             mac,
 		RoamCount:       sta.RoamCount,

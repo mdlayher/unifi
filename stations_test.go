@@ -97,13 +97,8 @@ func TestStationUnmarshalJSON(t *testing.T) {
 			err:  errors.New("invalid MAC address"),
 		},
 		{
-			desc: "invalid IP",
-			b:    []byte(`{"ap_mac":"de:ad:be:ef:de:ad","ip":"foo"}`),
-			err:  errors.New("failed to parse station IP"),
-		},
-		{
 			desc: "invalid MAC",
-			b:    []byte(`{"ap_mac":"de:ad:be:ef:de:ad","ip":"192.168.1.2","mac":"foo"}`),
+			b:    []byte(`{"ap_mac":"de:ad:be:ef:de:ad","mac":"foo"}`),
 			err:  errors.New("invalid MAC address"),
 		},
 		{
