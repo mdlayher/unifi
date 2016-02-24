@@ -113,6 +113,7 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 	"inform_ip": "192.168.1.1",
 	"inform_url": "http://192.168.1.1:8080/inform",
 	"model": "uap1000",
+	"name": "AP",
 	"ethernet_table": [
 		{
 			"mac": "de:ad:be:ef:de:ad",
@@ -164,6 +165,7 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 					return u
 				}(),
 				Model: "uap1000",
+				Name:  "AP",
 				NICs: []*NIC{{
 					MAC:  net.HardwareAddr{0xde, 0xad, 0xbe, 0xef, 0xde, 0xad},
 					Name: "eth0",

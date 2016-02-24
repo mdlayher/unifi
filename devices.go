@@ -33,6 +33,7 @@ type Device struct {
 	InformIP  net.IP
 	InformURL *url.URL
 	Model     string
+	Name      string
 	NICs      []*NIC
 	Radios    []*Radio
 	Serial    string
@@ -133,6 +134,7 @@ func (d *Device) UnmarshalJSON(b []byte) error {
 		InformIP:  informIP,
 		InformURL: informURL,
 		Model:     dev.Model,
+		Name:      dev.Name,
 		NICs:      nics,
 		Radios:    radios,
 		Serial:    dev.Serial,
@@ -192,6 +194,7 @@ type device struct {
 	LastSeen      int         `json:"last_seen"`
 	MAC           string      `json:"mac"`
 	Model         string      `json:"model"`
+	Name          string      `json:"name"`
 	NaGuestNumSta int         `json:"na-guest-num_sta"`
 	NaNumSta      int         `json:"na-num_sta"`
 	NaUserNumSta  int         `json:"na-user-num_sta"`
