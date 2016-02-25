@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"net/url"
+	"time"
 )
 
 // Devices returns all of the Devices for a specified site name.
@@ -39,6 +40,7 @@ type Device struct {
 	Serial    string
 	SiteID    string
 	Stats     *DeviceStats
+	Uptime    time.Duration
 	Version   string
 
 	// TODO(mdlayher): add more fields from unexported device type
@@ -176,6 +178,7 @@ func (d *Device) UnmarshalJSON(b []byte) error {
 		Radios:    radios,
 		Serial:    dev.Serial,
 		SiteID:    dev.SiteID,
+		Uptime:    time.Duration(time.Duration(dev.Uptime) * time.Second),
 		Version:   dev.Version,
 		Stats: &DeviceStats{
 			TotalBytes: dev.Stat.Bytes,
@@ -297,6 +300,7 @@ type device struct {
 	TxBytes       int           `json:"tx_bytes"`
 	Type          string        `json:"type"`
 	UplinkTable   []interface{} `json:"uplink_table"`
+	Uptime        int           `json:"uptime"`
 	UserNumSta    int           `json:"user-num_sta"`
 	Version       string        `json:"version"`
 	VwireEnabled  bool          `json:"vwireEnabled"`

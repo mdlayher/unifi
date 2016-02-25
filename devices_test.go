@@ -10,6 +10,7 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestClientDevices(t *testing.T) {
@@ -163,6 +164,7 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 		"uplink-tx_bytes": 20,
 		"uplink-tx_packets": 1
 	},
+	"uptime": "61",
 	"version": "1.0.0"
 }
 `)),
@@ -237,6 +239,7 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 						TransmitPackets: 1,
 					},
 				},
+				Uptime:  61 * time.Second,
 				Version: "1.0.0",
 			},
 		},
