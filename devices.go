@@ -100,8 +100,8 @@ const (
 	radioNA = "na"
 	radioNG = "ng"
 
-	radio80211ac = "802.11ac"
-	radio80211n  = "802.11n"
+	radio5GHz  = "5GHz"
+	radio24GHz = "2.4GHz"
 )
 
 // UnmarshalJSON unmarshals the raw JSON representation of a Device.
@@ -144,19 +144,19 @@ func (d *Device) UnmarshalJSON(b []byte) error {
 			Name:               rt.Name,
 		}
 
-		// 802.11ac and 802.11n station counts appear in different keys for
+		// 5GHz and 2.4GHz station counts appear in different keys for
 		// different radio types, so we check the radio type first to determine
 		// where the correct radio statistics are
 		switch rt.Radio {
 		case radioNA:
-			r.Radio = radio80211ac
+			r.Radio = radio5GHz
 			r.Stats = &RadioStationsStats{
 				NumberStations:      dev.NaNumSta,
 				NumberUserStations:  dev.NaUserNumSta,
 				NumberGuestStations: dev.NaGuestNumSta,
 			}
 		case radioNG:
-			r.Radio = radio80211n
+			r.Radio = radio24GHz
 			r.Stats = &RadioStationsStats{
 				NumberStations:      dev.NgNumSta,
 				NumberUserStations:  dev.NgUserNumSta,

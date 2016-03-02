@@ -193,7 +193,7 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 						MaxTXPower:         10,
 						MinTXPower:         1,
 						Name:               "wlan0",
-						Radio:              radio80211n,
+						Radio:              radio24GHz,
 						Stats: &RadioStationsStats{
 							NumberStations:      3,
 							NumberUserStations:  2,
@@ -206,7 +206,7 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 						MaxTXPower:         10,
 						MinTXPower:         1,
 						Name:               "wlan1",
-						Radio:              radio80211ac,
+						Radio:              radio5GHz,
 						Stats: &RadioStationsStats{
 							NumberStations:      3,
 							NumberUserStations:  2,
