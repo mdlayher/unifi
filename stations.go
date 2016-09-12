@@ -39,6 +39,8 @@ type Station struct {
 	LastSeen        time.Time
 	MAC             net.HardwareAddr
 	RoamCount       int
+	Noise           int
+	RSSI            int
 	SiteID          string
 	Stats           *StationStats
 	Uptime          time.Duration
@@ -84,6 +86,8 @@ func (s *Station) UnmarshalJSON(b []byte) error {
 		IP:              net.ParseIP(sta.IP),
 		LastSeen:        time.Unix(int64(sta.LastSeen), 0),
 		MAC:             mac,
+		Noise:           sta.Noise,
+		RSSI:            sta.RSSI,
 		RoamCount:       sta.RoamCount,
 		SiteID:          sta.SiteID,
 		Stats: &StationStats{
@@ -133,7 +137,7 @@ type station struct {
 	Radio            string `json:"radio"`
 	RadioProto       string `json:"radio_proto"`
 	RoamCount        int    `json:"roam_count"`
-	Rssi             int    `json:"rssi"`
+	RSSI             int    `json:"rssi"`
 	RxBytes          int    `json:"rx_bytes"`
 	RxBytesR         int    `json:"rx_bytes-r"`
 	RxPackets        int    `json:"rx_packets"`
