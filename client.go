@@ -1,4 +1,5 @@
-// Package unifi implements a client for the Ubiquiti UniFi Controller v4 API.
+// Package unifi implements a client for the Ubiquiti UniFi Controller v4 and
+// v5 API.
 package unifi
 
 import (

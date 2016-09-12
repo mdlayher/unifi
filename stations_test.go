@@ -151,22 +151,22 @@ func TestStationUnmarshalJSON(t *testing.T) {
 		},
 	}
 
-	for i, tt := range tests {
-		t.Logf("[%02d] test %q", i, tt.desc)
+	for _, tt := range tests {
+		t.Run(tt.desc, func(t *testing.T) {
+			s := new(Station)
+			err := s.UnmarshalJSON(tt.b)
+			if want, got := errStr(tt.err), errStr(err); !strings.Contains(got, want) {
+				t.Fatalf("unexpected error:\n- want: %v\n-  got: %v",
+					want, got)
+			}
+			if err != nil {
+				return
+			}
 
-		s := new(Station)
-		err := s.UnmarshalJSON(tt.b)
-		if want, got := errStr(tt.err), errStr(err); !strings.Contains(got, want) {
-			t.Fatalf("unexpected error:\n- want: %v\n-  got: %v",
-				want, got)
-		}
-		if err != nil {
-			continue
-		}
-
-		if want, got := tt.s, s; !reflect.DeepEqual(got, want) {
-			t.Fatalf("unexpected Station:\n- want: %+v\n-  got: %+v",
-				want, got)
-		}
+			if want, got := tt.s, s; !reflect.DeepEqual(got, want) {
+				t.Fatalf("unexpected Station:\n- want: %+v\n-  got: %+v",
+					want, got)
+			}
+		})
 	}
 }
