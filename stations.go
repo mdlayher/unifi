@@ -51,11 +51,11 @@ type Station struct {
 
 // StationStats contains station network activity statistics.
 type StationStats struct {
-	ReceiveBytes    int
-	ReceivePackets  int
+	ReceiveBytes    int64
+	ReceivePackets  int64
 	ReceiveRate     int
-	TransmitBytes   int
-	TransmitPackets int
+	TransmitBytes   int64
+	TransmitPackets int64
 	TransmitPower   int
 	TransmitRate    int
 }
@@ -122,7 +122,7 @@ type station struct {
 	AssocTime        int    `json:"assoc_time"`
 	Authorized       bool   `json:"authorized"`
 	Bssid            string `json:"bssid"`
-	BytesR           int    `json:"bytes-r"`
+	BytesR           int64  `json:"bytes-r"`
 	Ccq              int    `json:"ccq"`
 	Channel          int    `json:"channel"`
 	Essid            string `json:"essid"`
@@ -143,15 +143,15 @@ type station struct {
 	RadioProto       string `json:"radio_proto"`
 	RoamCount        int    `json:"roam_count"`
 	RSSI             int    `json:"rssi"`
-	RxBytes          int    `json:"rx_bytes"`
-	RxBytesR         int    `json:"rx_bytes-r"`
-	RxPackets        int    `json:"rx_packets"`
+	RxBytes          int64  `json:"rx_bytes"`
+	RxBytesR         int64  `json:"rx_bytes-r"`
+	RxPackets        int64  `json:"rx_packets"`
 	RxRate           int    `json:"rx_rate"`
 	Signal           int    `json:"signal"`
 	SiteID           string `json:"site_id"`
-	TxBytes          int    `json:"tx_bytes"`
-	TxBytesR         int    `json:"tx_bytes-r"`
-	TxPackets        int    `json:"tx_packets"`
+	TxBytes          int64  `json:"tx_bytes"`
+	TxBytesR         int64  `json:"tx_bytes-r"`
+	TxPackets        int64  `json:"tx_packets"`
 	TxPower          int    `json:"tx_power"`
 	TxRate           int    `json:"tx_rate"`
 	Uptime           int    `json:"uptime"`
