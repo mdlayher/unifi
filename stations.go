@@ -37,6 +37,7 @@ type Station struct {
 	Hostname  string
 	IdleTime  time.Duration
 	IP        net.IP
+	IsWired   bool
 	LastSeen  time.Time
 	MAC       net.HardwareAddr
 	RoamCount int
@@ -69,7 +70,7 @@ func (s *Station) UnmarshalJSON(b []byte) error {
 	}
 
 	apMAC, err := net.ParseMAC(sta.ApMac)
-	if sta.ApMac != "" && err != nil {
+	if !sta.IsWired && err != nil {
 		return err
 	}
 
@@ -87,6 +88,7 @@ func (s *Station) UnmarshalJSON(b []byte) error {
 		Hostname:        sta.Hostname,
 		IdleTime:        time.Duration(time.Duration(sta.Idletime) * time.Second),
 		IP:              net.ParseIP(sta.IP),
+		IsWired:         sta.IsWired,
 		LastSeen:        time.Unix(int64(sta.LastSeen), 0),
 		MAC:             mac,
 		Name:            sta.Name,
