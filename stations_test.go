@@ -137,7 +137,7 @@ func TestStationUnmarshalJSON(t *testing.T) {
 				IP:              net.IPv4(192, 168, 1, 2),
 				LastSeen:        zeroUNIX,
 				MAC:             net.HardwareAddr{0xde, 0xad, 0xbe, 0xef, 0xde, 0xad},
-				Name:		 "somename",
+				Name:            "somename",
 				Noise:           -110,
 				RoamCount:       1,
 				RSSI:            40,

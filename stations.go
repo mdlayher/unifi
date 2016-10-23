@@ -33,21 +33,21 @@ type Station struct {
 	AssociationTime time.Time
 	Channel         int
 	FirstSeen       time.Time
-        // Hostname is the device-provided name
-	Hostname        string
-	IdleTime        time.Duration
-	IP              net.IP
-	LastSeen        time.Time
-	MAC             net.HardwareAddr
-	RoamCount       int
+	// Hostname is the device-provided name
+	Hostname  string
+	IdleTime  time.Duration
+	IP        net.IP
+	LastSeen  time.Time
+	MAC       net.HardwareAddr
+	RoamCount int
 	// Name is the Unifi-set name
-	Name            string
-	Noise           int
-	RSSI            int
-	SiteID          string
-	Stats           *StationStats
-	Uptime          time.Duration
-	UserID          string
+	Name   string
+	Noise  int
+	RSSI   int
+	SiteID string
+	Stats  *StationStats
+	Uptime time.Duration
+	UserID string
 }
 
 // StationStats contains station network activity statistics.
