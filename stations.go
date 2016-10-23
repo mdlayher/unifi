@@ -33,12 +33,14 @@ type Station struct {
 	AssociationTime time.Time
 	Channel         int
 	FirstSeen       time.Time
-	Hostname        string
+	Hostname        string // Device-provided name
 	IdleTime        time.Duration
 	IP              net.IP
+	IsWired         bool
 	LastSeen        time.Time
 	MAC             net.HardwareAddr
 	RoamCount       int
+	Name            string // Unifi-set name
 	Noise           int
 	RSSI            int
 	SiteID          string
@@ -66,7 +68,7 @@ func (s *Station) UnmarshalJSON(b []byte) error {
 	}
 
 	apMAC, err := net.ParseMAC(sta.ApMac)
-	if err != nil {
+	if !sta.IsWired && err != nil {
 		return err
 	}
 
@@ -84,8 +86,10 @@ func (s *Station) UnmarshalJSON(b []byte) error {
 		Hostname:        sta.Hostname,
 		IdleTime:        time.Duration(time.Duration(sta.Idletime) * time.Second),
 		IP:              net.ParseIP(sta.IP),
+		IsWired:         sta.IsWired,
 		LastSeen:        time.Unix(int64(sta.LastSeen), 0),
 		MAC:             mac,
+		Name:            sta.Name,
 		Noise:           sta.Noise,
 		RSSI:            sta.RSSI,
 		RoamCount:       sta.RoamCount,
@@ -130,6 +134,7 @@ type station struct {
 	IsWired          bool   `json:"is_wired"`
 	LastSeen         int    `json:"last_seen"`
 	Mac              string `json:"mac"`
+	Name             string `json:"name"`
 	Noise            int    `json:"noise"`
 	Oui              string `json:"oui"`
 	PowersaveEnabled bool   `json:"powersave_enabled"`
