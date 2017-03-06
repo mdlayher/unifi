@@ -160,7 +160,6 @@ func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer res.Body.Close()
 
 	if err := checkResponse(res); err != nil {
 		return res, err
@@ -171,6 +170,7 @@ func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
 		return res, nil
 	}
 
+	defer res.Body.Close()
 	return res, json.NewDecoder(res.Body).Decode(v)
 }
 
