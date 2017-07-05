@@ -212,10 +212,10 @@ func (d *Device) UnmarshalJSON(b []byte) error {
 // API.
 type device struct {
 	// TODO(mdlayher): give all fields appropriate names and data types.
-	ID            string `json:"_id"`
-	Adopted       bool   `json:"adopted"`
-	Bytes         float64  `json:"bytes"`
-	ConfigVersion string `json:"cfgversion"`
+	ID            string  `json:"_id"`
+	Adopted       bool    `json:"adopted"`
+	Bytes         float64 `json:"bytes"`
+	ConfigVersion string  `json:"cfgversion"`
 	ConfigNetwork struct {
 		IP   string `json:"ip"`
 		Type string `json:"type"`
@@ -259,45 +259,45 @@ type device struct {
 		Name           string `json:"name"`
 		Radio          string `json:"radio"`
 	} `json:"radio_table"`
-	RxBytes float64  `json:"rx_bytes"`
-	Serial  string `json:"serial,omitempty"`
-	SiteID  string `json:"site_id"`
+	RxBytes float64 `json:"rx_bytes"`
+	Serial  string  `json:"serial,omitempty"`
+	SiteID  string  `json:"site_id"`
 	Stat    struct {
-		Bytes            float64  `json:"bytes"`
-		GuestNgTxBytes   float64  `json:"guest-ng-tx_bytes"`
-		GuestNgTxDropped float64  `json:"guest-ng-tx_dropped"`
-		GuestNgTxPackets float64  `json:"guest-ng-tx_packets"`
-		GuestTxBytes     float64  `json:"guest-tx_bytes"`
-		GuestTxDropped   float64  `json:"guest-tx_dropped"`
-		GuestTxPackets   float64  `json:"guest-tx_packets"`
-		Mac              string `json:"mac"`
-		NgRxBytes        float64  `json:"ng-rx_bytes"`
-		NgRxPackets      float64  `json:"ng-rx_packets"`
-		NgTxBytes        float64  `json:"ng-tx_bytes"`
-		NgTxDropped      float64  `json:"ng-tx_dropped"`
-		NgTxPackets      float64  `json:"ng-tx_packets"`
-		RxBytes          float64  `json:"rx_bytes"`
-		RxPackets        float64  `json:"rx_packets"`
-		TxBytes          float64  `json:"tx_bytes"`
-		TxDropped        float64  `json:"tx_dropped"`
-		TxPackets        float64  `json:"tx_packets"`
-		UplinkRxBytes    float64  `json:"uplink-rx_bytes"`
-		UplinkRxPackets  float64  `json:"uplink-rx_packets"`
-		UplinkTxBytes    float64  `json:"uplink-tx_bytes"`
-		UplinkTxPackets  float64  `json:"uplink-tx_packets"`
-		UserNgRxBytes    float64  `json:"user-ng-rx_bytes"`
-		UserNgRxPackets  float64  `json:"user-ng-rx_packets"`
-		UserNgTxBytes    float64  `json:"user-ng-tx_bytes"`
-		UserNgTxDropped  float64  `json:"user-ng-tx_dropped"`
-		UserNgTxPackets  float64  `json:"user-ng-tx_packets"`
-		UserRxBytes      float64  `json:"user-rx_bytes"`
-		UserRxPackets    float64  `json:"user-rx_packets"`
-		UserTxBytes      float64  `json:"user-tx_bytes"`
-		UserTxDropped    float64  `json:"user-tx_dropped"`
-		UserTxPackets    float64  `json:"user-tx_packets"`
+		Bytes            float64 `json:"bytes"`
+		GuestNgTxBytes   float64 `json:"guest-ng-tx_bytes"`
+		GuestNgTxDropped float64 `json:"guest-ng-tx_dropped"`
+		GuestNgTxPackets float64 `json:"guest-ng-tx_packets"`
+		GuestTxBytes     float64 `json:"guest-tx_bytes"`
+		GuestTxDropped   float64 `json:"guest-tx_dropped"`
+		GuestTxPackets   float64 `json:"guest-tx_packets"`
+		Mac              string  `json:"mac"`
+		NgRxBytes        float64 `json:"ng-rx_bytes"`
+		NgRxPackets      float64 `json:"ng-rx_packets"`
+		NgTxBytes        float64 `json:"ng-tx_bytes"`
+		NgTxDropped      float64 `json:"ng-tx_dropped"`
+		NgTxPackets      float64 `json:"ng-tx_packets"`
+		RxBytes          float64 `json:"rx_bytes"`
+		RxPackets        float64 `json:"rx_packets"`
+		TxBytes          float64 `json:"tx_bytes"`
+		TxDropped        float64 `json:"tx_dropped"`
+		TxPackets        float64 `json:"tx_packets"`
+		UplinkRxBytes    float64 `json:"uplink-rx_bytes"`
+		UplinkRxPackets  float64 `json:"uplink-rx_packets"`
+		UplinkTxBytes    float64 `json:"uplink-tx_bytes"`
+		UplinkTxPackets  float64 `json:"uplink-tx_packets"`
+		UserNgRxBytes    float64 `json:"user-ng-rx_bytes"`
+		UserNgRxPackets  float64 `json:"user-ng-rx_packets"`
+		UserNgTxBytes    float64 `json:"user-ng-tx_bytes"`
+		UserNgTxDropped  float64 `json:"user-ng-tx_dropped"`
+		UserNgTxPackets  float64 `json:"user-ng-tx_packets"`
+		UserRxBytes      float64 `json:"user-rx_bytes"`
+		UserRxPackets    float64 `json:"user-rx_packets"`
+		UserTxBytes      float64 `json:"user-tx_bytes"`
+		UserTxDropped    float64 `json:"user-tx_dropped"`
+		UserTxPackets    float64 `json:"user-tx_packets"`
 	} `json:"stat"`
 	State         int           `json:"state"`
-	TxBytes       float64         `json:"tx_bytes"`
+	TxBytes       float64       `json:"tx_bytes"`
 	Type          string        `json:"type"`
 	UplinkTable   []interface{} `json:"uplink_table"`
 	Uptime        int           `json:"uptime"`
