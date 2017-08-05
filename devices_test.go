@@ -158,13 +158,30 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 		"user-rx_packets": 4,
 		"user-tx_bytes": 20,
 		"user-tx_dropped": 1,
-		"user-tx_packets": 1,
-		"uplink-rx_bytes": 80,
-		"uplink-rx_packets": 4,
-		"uplink-tx_bytes": 20,
-		"uplink-tx_packets": 1
+		"user-tx_packets": 1
 	},
-	"uptime": "61",
+	"uplink": {  
+		"full_duplex": true,
+		"ip": "0.0.0.0",
+		"mac": "de:ad:be:ef:00:00",
+		"max_speed": 1000,
+		"name": "eth0",
+		"netmask": "0.0.0.0",
+		"num_port": 2,
+		"rx_bytes": 81,
+		"rx_dropped": 11023,
+		"rx_errors": 0,
+		"rx_multicast": 0,
+		"rx_packets": 5,
+		"speed": 1000,
+		"tx_bytes": 21,
+		"tx_dropped": 0,
+		"tx_errors": 0,
+		"tx_packets": 2,
+		"type": "wire",
+		"up": true
+	},
+	"uptime": 61,
 	"version": "1.0.0"
 }
 `)),
@@ -233,10 +250,10 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 						TransmitPackets: 1,
 					},
 					Uplink: &WiredStats{
-						ReceiveBytes:    80,
-						ReceivePackets:  4,
-						TransmitBytes:   20,
-						TransmitPackets: 1,
+						ReceiveBytes:    81,
+						ReceivePackets:  5,
+						TransmitBytes:   21,
+						TransmitPackets: 2,
 					},
 				},
 				Uptime:  61 * time.Second,
@@ -253,8 +270,11 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 				t.Fatalf("unexpected error:\n- want: %v\n-  got: %v",
 					want, got)
 			}
-			if err != nil {
+			if tt.err != nil {
 				return
+			}
+			if err != nil {
+				t.Fatalf("Error parsing json: %v", err)
 			}
 
 			if want, got := tt.d, d; !reflect.DeepEqual(got, want) {
