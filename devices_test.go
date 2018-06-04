@@ -33,6 +33,7 @@ func TestClientDevices(t *testing.T) {
 			All:    &WirelessStats{},
 			User:   &WirelessStats{},
 			Uplink: &WiredStats{},
+			Guest:  &WirelessStats{},
 		},
 	}
 
@@ -121,12 +122,6 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 			"name": "eth0"
 		}
 	],
-	"na-num_sta": 3,
-	"na-user-num_sta": 2,
-	"na-guest-num_sta": 1,
-	"ng-num_sta": 3,
-	"ng-user-num_sta": 2,
-	"ng-guest-num_sta": 1,
 	"radio_table": [
 		{
 			"builtin_ant_gain": 1,
@@ -145,22 +140,38 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 			"radio": "na"
 		}
 	],
+	"radio_table_stats": [{
+		"guest-num_sta": 1,
+		"name": "wlan0",
+		"num_sta": 3,
+		"user-num_sta": 2
+	}, {
+		"guest-num_sta": 1,
+		"name": "wlan1",
+		"num_sta": 3,
+		"user-num_sta": 2
+	}],
 	"serial": "deadbeef0123456789",
 	"site_id": "default",
 	"stat": {
+		"guest-rx_bytes": 101,
+		"guest-rx_packets": 5,
+		"guest-tx_bytes": 40,
+		"guest-tx_dropped": 7,
+		"guest-tx_packets": 9,
+		"user-rx_bytes": 80,
+		"user-rx_packets": 4,
+		"user-tx_bytes": 20,
+		"user-tx_dropped": 1,
+		"user-tx_packets": 1,
 		"bytes": 100,
 		"rx_bytes": 80,
 		"rx_packets": 4,
 		"tx_bytes": 20,
 		"tx_dropped": 1,
-		"tx_packets": 1,
-		"user-rx_bytes": 80,
-		"user-rx_packets": 4,
-		"user-tx_bytes": 20,
-		"user-tx_dropped": 1,
-		"user-tx_packets": 1
+		"tx_packets": 1
 	},
-	"uplink": {  
+	"uplink": {
 		"full_duplex": true,
 		"ip": "0.0.0.0",
 		"mac": "de:ad:be:ef:00:00",
@@ -254,6 +265,13 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 						ReceivePackets:  5,
 						TransmitBytes:   21,
 						TransmitPackets: 2,
+					},
+					Guest: &WirelessStats{
+						ReceiveBytes:    101,
+						ReceivePackets:  5,
+						TransmitBytes:   40,
+						TransmitDropped: 7,
+						TransmitPackets: 9,
 					},
 				},
 				Uptime:  61 * time.Second,
