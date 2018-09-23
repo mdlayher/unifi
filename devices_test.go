@@ -34,6 +34,7 @@ func TestClientDevices(t *testing.T) {
 			User:   &WirelessStats{},
 			Uplink: &WiredStats{},
 			Guest:  &WirelessStats{},
+			System: &SystemStats{},
 		},
 	}
 
@@ -193,7 +194,20 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 		"up": true
 	},
 	"uptime": 61,
-	"version": "1.0.0"
+	"version": "1.0.0",
+	"sys_stats": {
+        "loadavg_1": "1.48",
+        "loadavg_15": "1.57",
+        "loadavg_5": "1.58",
+        "mem_buffer": 0,
+        "mem_total": 262516736,
+        "mem_used": 168779776
+      },
+      "system-stats": {
+        "cpu": "55.7",
+        "mem": "64.3",
+        "uptime": "11622320"
+      }
 }
 `)),
 			d: &Device{
@@ -272,6 +286,17 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 						TransmitBytes:   40,
 						TransmitDropped: 7,
 						TransmitPackets: 9,
+					},
+					System: &SystemStats{
+						Uptime:        11622320,
+						CpuPercentage: 55.7,
+						MemPercentage: 64.3,
+						LoadAvg1:      1.48,
+						LoadAvg15:     1.57,
+						LoadAvg5:      1.58,
+						MemBuffer:     0,
+						MemTotal:      262516736,
+						MemUsed:       168779776,
 					},
 				},
 				Uptime:  61 * time.Second,
