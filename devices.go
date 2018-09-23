@@ -77,10 +77,23 @@ type DeviceStats struct {
 	Guest      *WirelessStats
 	User       *WirelessStats
 	Uplink     *WiredStats
+	System     *SystemStats
 }
 
 func (s *DeviceStats) String() string {
 	return fmt.Sprintf("%v", *s)
+}
+
+type SystemStats struct {
+	CpuPercentage float64
+	MemPercentage float64
+	Uptime        int
+	LoadAvg1      float64
+	LoadAvg15     float64
+	LoadAvg5      float64
+	MemBuffer     int64
+	MemTotal      int64
+	MemUsed       int64
 }
 
 // WirelessStats contains wireless device network activity statistics.
@@ -218,6 +231,17 @@ func (d *Device) UnmarshalJSON(b []byte) error {
 				TransmitBytes:   dev.Uplink.TxBytes,
 				TransmitPackets: dev.Uplink.TxPackets,
 			},
+			System: &SystemStats{
+				Uptime:        dev.SystemStats.Uptime,
+				CpuPercentage: dev.SystemStats.CpuPercentage,
+				MemPercentage: dev.SystemStats.MemPercentage,
+				LoadAvg1:      dev.SysStats.LoadAvg1,
+				LoadAvg15:     dev.SysStats.LoadAvg15,
+				LoadAvg5:      dev.SysStats.LoadAvg5,
+				MemBuffer:     dev.SysStats.MemBuffer,
+				MemTotal:      dev.SysStats.MemTotal,
+				MemUsed:       dev.SysStats.MemUsed,
+			},
 		},
 	}
 
@@ -332,4 +356,17 @@ type device struct {
 	XAuthkey      string        `json:"x_authkey"`
 	XFingerprint  string        `json:"x_fingerprint"`
 	XVwirekey     string        `json:"x_vwirekey"`
+	SystemStats   struct {
+		CpuPercentage float64 `json:"cpu,string"`
+		MemPercentage float64 `json:"mem,string"`
+		Uptime        int     `json:"uptime,string"`
+	} `json:"system-stats"`
+	SysStats struct {
+		LoadAvg1  float64 `json:"loadavg_1,string"`
+		LoadAvg15 float64 `json:"loadavg_15,string"`
+		LoadAvg5  float64 `json:"loadavg_5,string"`
+		MemBuffer int64   `json:"mem_buffer"`
+		MemTotal  int64   `json:"mem_total"`
+		MemUsed   int64   `json:"mem_used"`
+	} `json:"sys_stats"`
 }
