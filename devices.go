@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"net/url"
+	"strings"
 	"time"
 )
 
@@ -222,6 +223,20 @@ func (d *Device) UnmarshalJSON(b []byte) error {
 	}
 
 	return nil
+}
+
+func (d Device) String() string {
+	if d.Name != "" {
+		return d.Name
+	}
+	if d.Serial != "" {
+		if len(d.Serial) != 12 {
+			return d.Serial
+		}
+		s := strings.ToLower(d.Serial)
+		return strings.Join([]string{s[0:2], s[2:4], s[4:6], s[6:8], s[8:10], s[10:12]}, ":")
+	}
+	return d.ID
 }
 
 // A device is the raw structure of a Device returned from the UniFi Controller
