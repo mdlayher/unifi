@@ -116,6 +116,7 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 	"inform_url": "http://192.168.1.1:8080/inform",
 	"model": "uap1000",
 	"name": "AP",
+	"state": 1,
 	"ethernet_table": [
 		{
 			"mac": "de:ad:be:ef:de:ad",
@@ -199,6 +200,7 @@ func TestDeviceUnmarshalJSON(t *testing.T) {
 			d: &Device{
 				ID:       "abcdef1234567890",
 				Adopted:  true,
+				State:    DeviceConnected,
 				InformIP: net.IPv4(192, 168, 1, 1),
 				InformURL: func() *url.URL {
 					u, err := url.Parse("http://192.168.1.1:8080/inform")

@@ -27,10 +27,22 @@ func (c *Client) Devices(siteName string) ([]*Device, error) {
 	return v.Devices, err
 }
 
+// DeviceState represents the state of the device (connected/disconnected)
+type DeviceState int
+
+const (
+	// DeviceDisconnected is the state for when a UniFi device is offline
+	DeviceDisconnected DeviceState = iota
+
+	// DeviceConnected is the state for when a UnifiDevice is online
+	DeviceConnected
+)
+
 // A Device is a Ubiquiti UniFi device, such as a UniFi access point.
 type Device struct {
 	ID        string
 	Adopted   bool
+	State     DeviceState
 	InformIP  net.IP
 	InformURL *url.URL
 	Model     string
@@ -179,6 +191,7 @@ func (d *Device) UnmarshalJSON(b []byte) error {
 	*d = Device{
 		ID:        dev.ID,
 		Adopted:   dev.Adopted,
+		State:     DeviceState(dev.State),
 		InformIP:  informIP,
 		InformURL: informURL,
 		Model:     dev.Model,
